@@ -1,0 +1,7 @@
+{
+    "from_email": "nielitchdropar@gmail.com",
+    "excel_file": "mail_List.xlsx",
+    "attachments_folder": "moved_files",
+    "mailjet_api_key": "909723e1cf828enteryour5dfdfdgfdfdce256d1c427",
+    "mailjet_api_secret": "49f0c06076enteryour43925cbaf8c4aa"
+}
