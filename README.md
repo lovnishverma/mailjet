@@ -1,24 +1,27 @@
-**Certificate Email Sender - Mailjet GUI version 1.4** app:
+**Certificate Email Sender - Mailjet GUI v1.4**, including instructions for running the Python version and using the standalone Windows `.exe` created with PyInstaller:
 
 ---
 
 ```markdown
-# Certificate Email Sender - Mailjet GUI 🎓📧
+# 🎓 Certificate Email Sender - Mailjet GUI (v1.4)
 
-A user-friendly desktop application built using **Python & Tkinter** for sending personalized certificate emails in bulk using the **Mailjet API**. It supports both Excel and CSV data formats, attaches PDF certificates, and provides real-time logging and summary.
+A user-friendly desktop application built using **Python & Tkinter** for sending personalized certificate emails in bulk using the **Mailjet API**. It supports Excel and CSV data formats, attaches PDF certificates, tracks email delivery progress, and sends a summary report upon completion.
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
-- ✅ Simple and interactive GUI
+- ✅ Intuitive graphical interface (built with Tkinter)
 - 📂 Supports Excel (`.xlsx`) and CSV (`.csv`) data files
-- 📎 Sends certificates (PDF attachments) using Mailjet
-- 📈 Progress bar and real-time logs
-- 💾 Auto-saves API keys and configuration
-- 📬 Summary email sent to admin after completion
-- 🔒 Hide API secrets with password-like input
-- 🔍 Email validation to avoid sending to invalid addresses
+- 📎 Attaches personalized PDF certificates by `cert_no`
+- 📈 Real-time logging and progress bar
+- 🔐 Secure API key/secret entry with hidden input
+- 💾 Auto-saves Mailjet config in `config.json`
+- 📬 Sends a final summary email to the sender
+- 📊 Email validation to avoid sending to invalid addresses
+- 🛑 Option to skip certificate attachment
+- 🧪 Built-in error detection for missing files or bad entries
+- 🪄 Windows `.exe` version available (no Python required)
 
 ---
 
@@ -27,148 +30,185 @@ A user-friendly desktop application built using **Python & Tkinter** for sending
 ```
 
 certificate\_email\_sender/
-│
-├── main.py                  # Main application code (MailSenderApp)
-├── config.json              # Auto-generated configuration file
-├── README.md                # This documentation
-└── requirements.txt         # Python dependencies
+├── main.py               # Main application code
+├── config.json           # Auto-generated config (Mailjet settings)
+├── README.md             # Documentation
+├── requirements.txt      # Python dependencies
+├── dist/
+│   └── main.exe          # Standalone executable (Windows)
+├── build/
+└── main.spec             # PyInstaller build file
 
 ````
 
 ---
 
-## 🛠️ Installation
+## 🖥️ How to Use (Python Version)
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/certificate-email-sender.git
-   cd certificate-email-sender
+### 🔧 1. Clone this repository
+
+```bash
+git clone https://github.com/yourusername/certificate-email-sender.git
+cd certificate-email-sender
 ````
 
-2. **Create a virtual environment (optional but recommended)**
+### 🐍 2. (Optional) Create a virtual environment
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+```bash
+python -m venv venv
+# On Windows
+venv\Scripts\activate
+# On Linux/Mac
+source venv/bin/activate
+```
 
-3. **Install required libraries**
+### 📦 3. Install dependencies
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
+
+### 🚀 4. Launch the app
+
+```bash
+python main.py
+```
 
 ---
 
 ## 📌 Requirements
 
 * Python 3.7+
-* A **Mailjet** account (for API Key & Secret)
-* Excel or CSV file with the following **columns**:
+* A Mailjet account (for API Key & Secret)
+* Excel or CSV file containing:
 
   * `full_name`
   * `email`
   * `cert_no`
-* PDF certificate files named as `<cert_no>.pdf`
+* PDF certificates in a folder named exactly as `<cert_no>.pdf`
 
 ---
 
-## 📦 Example Usage
+## 📊 Sample Data File (CSV or Excel)
 
-1. **Launch the app**
+```csv
+full_name,email,cert_no
+Alice Johnson,alice@example.com,CERT101
+Bob Smith,bob@example.com,CERT102
+```
 
-   ```bash
-   python main.py
-   ```
-
-2. **Fill in the form**:
-
-   * From Email
-   * Mailjet API Key & Secret
-   * Choose file type: Excel or CSV
-   * Browse and select the data file
-   * Browse and select the folder with PDF certificates
-   * Optionally disable attachments
-
-3. **Click** `Start Sending Emails`
-
-4. Monitor progress and logs in the GUI.
+Each certificate should be named as `CERT101.pdf`, `CERT102.pdf`, etc.
 
 ---
 
 ## 📤 Summary Email
 
-After sending all emails, a summary report is emailed to the configured "From Email" address, showing:
+Once the email job completes, a summary email is sent to the sender’s Mailjet account with:
 
-* Total records
-* Sent count
-* Failed count
-
----
-
-## 📋 Configuration File
-
-All settings are auto-saved in `config.json` on close or email send, so you don’t need to enter them every time.
+* Total Records
+* Emails Sent
+* Failed Deliveries (if any)
 
 ---
 
-## 🧪 Sample Data File Format
+## 🔐 Configuration and Security
 
-```csv
-full_name,email,cert_no
-John Doe,john@example.com,CERT001
-Jane Smith,jane@example.com,CERT002
+* API Key and Secret are securely entered and saved locally to `config.json`
+* Inputs are masked using asterisks for safety
+* Email data and PDF files are not uploaded anywhere except Mailjet during email delivery
+
+---
+
+## 📦 Using the Windows `.exe` Version
+
+> No Python installation needed!
+
+### ✅ Steps:
+
+1. Download `main.exe` from the [Releases](https://github.com/yourusername/certificate-email-sender/releases)
+2. Double-click to open the GUI
+3. Fill in all fields and browse for your data file and certificate folder
+4. Click **Start Sending Emails**
+5. Wait for the log and summary notification
+
+---
+
+## 🧰 Building the Executable Yourself (Optional)
+
+You can generate your own `.exe` using PyInstaller:
+
+### 1. Install PyInstaller
+
+```bash
+pip install pyinstaller
 ```
 
+### 2. Build the executable
+
+```bash
+pyinstaller --noconfirm --onefile --windowed main.py
+```
+
+The final `main.exe` will be in the `dist/` directory.
+
 ---
 
-## 🔐 Security Notes
+## 🧪 Troubleshooting
 
-* API credentials are stored in `config.json`. Keep this file safe.
-* Credentials are not sent anywhere other than Mailjet's API during the operation.
+| Issue                    | Cause / Fix                                        |
+| ------------------------ | -------------------------------------------------- |
+| ❌ Invalid Email          | Email doesn't match standard format                |
+| ⚠️ Certificate not found | `cert_no.pdf` not found in selected folder         |
+| ❌ API Error              | Invalid Mailjet credentials or daily limit reached |
+| 🛑 GUI not launching     | Missing dependencies or bad Python install         |
 
 ---
 
-## 🧰 Troubleshooting
+## 📸 Application Screenshot
 
-* ❌ Invalid Email: Shown when email does not match the pattern.
-* ⚠️ Certificate not found: Shown when a matching PDF is missing.
-* ❌ API Error: May indicate wrong Mailjet credentials or issues with the recipient email.
+![App Screenshot](https://github.com/user-attachments/assets/74df951f-36ea-4d9e-a66f-b1d069279189)
+
+---
+
+## 📋 `requirements.txt`
+
+```
+mailjet-rest
+pandas
+tqdm
+openpyxl
+```
+
+> ✅ `openpyxl` is required for reading Excel files (`.xlsx`)
+
+---
+
+## 🏷️ Version
+
+**v1.4** — GUI version with:
+
+* Summary email
+* Mailjet error handling
+* Config persistence
+* Executable support
 
 ---
 
 ## 📜 License
 
-MIT License
+This project is licensed under the MIT License.
 
 ---
 
-## 🤝 Acknowledgements
+## 🙌 Acknowledgements
 
 Built with ❤️ by [Lovnish Verma](https://github.com/lovnishverma) using:
 
-* [Mailjet](https://www.mailjet.com/)
-* [Tkinter](https://docs.python.org/3/library/tkinter.html)
+* [Mailjet API](https://www.mailjet.com/)
+* [Tkinter GUI](https://docs.python.org/3/library/tkinter.html)
 * [Pandas](https://pandas.pydata.org/)
+* [PyInstaller](https://pyinstaller.org/)
 
-````
+```
 
 ---
-
-## ✅ Add `requirements.txt`
-
-You should also create a `requirements.txt` file:
-
-```txt
-mailjet-rest
-pandas
-tqdm
-openpyxl
-````
-
-> Note: `openpyxl` is required for reading `.xlsx` files.
-
-![image](https://github.com/user-attachments/assets/74df951f-36ea-4d9e-a66f-b1d069279189)
-
-
-This as an executable made using with `pyinstaller`.
