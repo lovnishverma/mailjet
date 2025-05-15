@@ -31,7 +31,7 @@ A user-friendly desktop application built using **Python & Tkinter** for sending
 
 certificate\_email\_sender/
 
-├── main.py               # Main application code
+├── mailjet.py               # mailjet application code
 
 ├── config.json           # Auto-generated config (Mailjet settings)
 
@@ -41,11 +41,11 @@ certificate\_email\_sender/
 
 ├── dist/
 
-│   └── main.exe          # Standalone executable (Windows)
+│   └── mailjet.exe          # Standalone executable (Windows)
 
 ├── build/
 
-└── main.spec             # PyInstaller build file
+└── mailjet.spec             # PyInstaller build file
 
 ````
 
@@ -79,7 +79,7 @@ pip install -r requirements.txt
 ### 🚀 4. Launch the app
 
 ```bash
-python main.py
+python mailjet.py
 ```
 
 ---
@@ -133,7 +133,7 @@ Once the email job completes, a summary email is sent to the sender’s Mailjet 
 
 ### ✅ Steps:
 
-1. Download `main.exe` from the [Releases](https://github.com/yourusername/certificate-email-sender/releases)
+1. Download `mailjet.exe` from the [Releases](https://github.com/yourusername/certificate-email-sender/releases)
 2. Double-click to open the GUI
 3. Fill in all fields and browse for your data file and certificate folder
 4. Click **Start Sending Emails**
@@ -154,10 +154,10 @@ pip install pyinstaller
 ### 2. Build the executable
 
 ```bash
-pyinstaller --noconfirm --onefile --windowed main.py
+pyinstaller --noconfirm --onefile --windowed mailjet.py
 ```
 
-The final `main.exe` will be in the `dist/` directory.
+The final `mailjet.exe` will be in the `dist/` directory.
 
 ---
 
