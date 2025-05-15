@@ -101,8 +101,8 @@ python mailjet.py
 
 ```csv
 full_name,email,cert_no
-Alice Johnson,alice@example.com,CERT101
-Bob Smith,bob@example.com,CERT102
+Lovnish Verma,princelv84@gmail.com,CERT101
+Prince,prince@gmail.com,CERT102
 ```
 
 Each certificate should be named as `CERT101.pdf`, `CERT102.pdf`, etc.
