@@ -100,7 +100,7 @@ emails_sent = 0
 with tqdm(total=total_emails, desc="Sending Emails", unit="email") as pbar:
     for _, row in data.iterrows():
         full_name = row['full_name'] if 'full_name' in row and pd.notna(
-            row['full_name']) else "Dear Participant"
+            row['full_name']) else "Participant"
         to_email = row['email']
         cert_no = row['cert_no']
 
