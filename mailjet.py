@@ -9,15 +9,25 @@ from mailjet_rest import Client
 
 # Load email configuration from a JSON object
 config = {
-    "from_email": "xxxxxxxxxxx@gmail.com",               #replace with your mail id registered on mailjet
-    "excel_file": "TEST.xlsx",                           #path of the excel sheet
-    "attachments_folder": "certificates",                #path of the attachments_folder where certificates are present
-    "mailjet_api_key": "90972xxxxxxxxxxxxxxxxxe256d1c427",#replace with your mailjet_api_key" get it for free from mailjet
-    "mailjet_api_secret": "49f0cxxxxxxxxxxxxxxxxxxxxxxx"  #replace with your mailjet_api_secret" get it for free from mailjet
+    # replace with your mail id registered on mailjet
+    "from_email": "xxxxxxxxxxx@gmail.com",
+    # Choose between 'excel' or 'csv'
+    "file_type": "excel",
+    # path of the file (excel or csv)
+    "file_path": "TEST.xlsx",
+    # path of the attachments folder where certificates are present
+    "attachments_folder": "certificates",
+    # replace with your mailjet_api_key
+    "mailjet_api_key": "909723e1cf8xxxxxxxxxxxxxxxx427",
+    # replace with your mailjet_api_secret
+    "mailjet_api_secret": "49f0c0xxxxxxxxxxxxxx4aa",
+    # Set to True to disable attachments
+    "disable_attachments": False,
 }
 
 # Initialize Mailjet Client
-mailjet = Client(auth=(config["mailjet_api_key"], config["mailjet_api_secret"]), version='v3.1')
+mailjet = Client(auth=(config["mailjet_api_key"],
+                 config["mailjet_api_secret"]), version='v3.1')
 
 # Email subject and body template
 subject_template = "Congratulations! Your Certificate is Ready"
@@ -59,21 +69,29 @@ body_template = """
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
 # Set up logging
-logging.basicConfig(filename="email_sending.log", level=logging.INFO, 
+logging.basicConfig(filename="email_sending.log", level=logging.INFO,
                     format="%(asctime)s - %(levelname)s - %(message)s")
 
 # Function to validate email format
+
+
 def is_valid_email(email):
     return re.match(email_regex, email)
 
-# Read Excel file
-data = pd.read_excel(config["excel_file"])
+
+# Read the appropriate file (Excel or CSV)
+if config["file_type"].lower() == "csv":
+    data = pd.read_csv(config["file_path"])
+elif config["file_type"].lower() == "excel":
+    data = pd.read_excel(config["file_path"])
+else:
+    raise ValueError("Unsupported file type. Choose 'excel' or 'csv'.")
 
 # Required columns check
 required_columns = {'full_name', 'email', 'cert_no'}
 if not required_columns.issubset(data.columns):
     missing_cols = required_columns - set(data.columns)
-    raise ValueError(f"Missing required columns in Excel file: {missing_cols}")
+    raise ValueError(f"Missing required columns in file: {missing_cols}")
 
 total_emails = len(data)
 emails_sent = 0
@@ -81,61 +99,66 @@ emails_sent = 0
 # Initialize progress bar
 with tqdm(total=total_emails, desc="Sending Emails", unit="email") as pbar:
     for _, row in data.iterrows():
-        full_name = row['full_name']
+        full_name = row['full_name'] if 'full_name' in row and pd.notna(
+            row['full_name']) else "Dear Participant"
         to_email = row['email']
         cert_no = row['cert_no']
 
         # Validate email
         if not is_valid_email(to_email):
-            logging.error(f"Invalid email address for {full_name}. Email: {to_email}")
+            logging.error(
+                f"Invalid email address for {full_name}. Email: {to_email}")
             continue
 
         # File path for certificate
-        certificate_file = os.path.join(config["attachments_folder"], f"{cert_no}.pdf")
+        certificate_file = os.path.join(
+            config["attachments_folder"], f"{cert_no}.pdf")
 
         try:
-            with open(certificate_file, 'rb') as cert_file:
-                certificate_data = base64.b64encode(cert_file.read()).decode()
+            email_data = {
+                "From": {
+                    "Email": config["from_email"],
+                    "Name": "Enter your company name"  # replace it
+                },
+                "To": [
+                    {
+                        "Email": to_email,
+                        "Name": full_name
+                    }
+                ],
+                "Subject": subject_template,
+                "HTMLPart": body_template.format(full_name=full_name, cert_no=cert_no)
+            }
 
-                # Prepare Mailjet email payload
-                data = {
-                    'Messages': [
+            if not config["disable_attachments"]:  # Check if attachments are enabled
+                if os.path.exists(certificate_file):
+                    with open(certificate_file, 'rb') as cert_file:
+                        certificate_data = base64.b64encode(
+                            cert_file.read()).decode()
+
+                    email_data["Attachments"] = [
                         {
-                            "From": {
-                                "Email": config["from_email"],
-                                "Name": "Enter your company name"  #replace it 
-                            },
-                            "To": [
-                                {
-                                    "Email": to_email,
-                                    "Name": full_name
-                                }
-                            ],
-                            "Subject": subject_template,
-                            "HTMLPart": body_template.format(full_name=full_name, cert_no=cert_no),
-                            "Attachments": [
-                                {
-                                    "ContentType": "application/pdf",
-                                    "Filename": f"{cert_no}.pdf",
-                                    "Base64Content": certificate_data
-                                }
-                            ]
+                            "ContentType": "application/pdf",
+                            "Filename": f"{cert_no}.pdf",
+                            "Base64Content": certificate_data
                         }
                     ]
-                }
-
-                # Send email
-                result = mailjet.send.create(data=data)
-
-                if result.status_code == 200:
-                    logging.info(f"Email sent to {to_email}")
-                    emails_sent += 1
                 else:
-                    logging.error(f"Failed to send email to {to_email}. Error: {result.text}")
-        except FileNotFoundError:
-            logging.warning(f"Certificate file not found for {full_name} ({cert_no}). Skipping.")
+                    logging.warning(
+                        f"Certificate file not found for {full_name} ({cert_no}). Skipping attachment.")
+
+            # Send email
+            result = mailjet.send.create(data={'Messages': [email_data]})
+
+            if result.status_code == 200:
+                logging.info(f"Email sent to {to_email}")
+                emails_sent += 1
+            else:
+                logging.error(
+                    f"Failed to send email to {to_email}. Error: {result.text}")
         except Exception as e:
-            logging.error(f"Error processing {full_name} ({cert_no}): {str(e)}")
+            logging.error(
+                f"Error processing {full_name} ({cert_no}): {str(e)}")
 
         pbar.update(1)
 
@@ -149,7 +172,7 @@ summary_data = {
         {
             "From": {
                 "Email": config["from_email"],
-                "Name": "compant name here" #replace it 
+                "Name": "Company Name"  # replace it
             },
             "To": [
                 {
