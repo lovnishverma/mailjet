@@ -133,7 +133,7 @@ Once the email job completes, a summary email is sent to the sender’s Mailjet 
 
 ### ✅ Steps:
 
-1. Download `mailjet.exe` from the [Releases](https://github.com/yourusername/certificate-email-sender/releases)
+1. Download `mailjet.exe` from the [Releases](https://github.com/lovnishverma/mailjet/releases)
 2. Double-click to open the GUI
 3. Fill in all fields and browse for your data file and certificate folder
 4. Click **Start Sending Emails**
