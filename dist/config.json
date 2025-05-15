@@ -1,0 +1,9 @@
+{
+    "file_type": "excel",
+    "disable_attachments": false,
+    "from_email": "youremailregisteredonmailjet@gmail.com",
+    "mailjet_api_key": "yourAPI_KEY",
+    "mailjet_api_secret": "********SECREAY",
+    "file_path": "C:/Users/princ/Desktop/mailjet/TEST.xlsx",
+    "attachments_folder": "C:/Users/princ/Desktop/mailjet/certificates"
+}

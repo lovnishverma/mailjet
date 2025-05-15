@@ -1,0 +1,9 @@
+{
+    "file_type": "excel",
+    "disable_attachments": false,
+    "from_email": "",
+    "mailjet_api_key": "",
+    "mailjet_api_secret": "",
+    "file_path": "",
+    "attachments_folder": ""
+}
