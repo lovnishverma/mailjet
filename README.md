@@ -1,85 +1,157 @@
-# Bulk Email Sender Using Mailjet Version 1.2
+**Bulk Email Sender Using Mailjet - Version 1.3**:
 
-This Python script automates the process of sending bulk emails with attachments (certificates) using **Mailjet's API**. The script reads recipient details from an Excel file, validates emails, and sends personalized emails with attachments.
+---
 
-## Features
-- Reads recipient details (name, email, certificate number) from an Excel file.
-- Sends personalized emails using Mailjet API.
-- Attaches PDF certificates to each email.
-- Logs success and failure messages.
-- Provides a summary email report at the end.
+````markdown
+# 📧 Bulk Email Sender Using Mailjet (v1.3)
 
-## Requirements
-- Python 3.x
-- Mailjet account (API Key and Secret Key)
-- Required Python Libraries:
-  - `pandas`
-  - `os`
-  - `logging`
-  - `json`
-  - `base64`
-  - `tqdm`
-  - `re`
-  - `mailjet_rest`
+Automate sending personalized emails with optional certificate attachments using [Mailjet's API](https://www.mailjet.com/). This version adds support for:
+- ✅ CSV or Excel (`.xlsx`) input
+- ✅ Optional attachments (configurable)
+- ✅ HTML template with personalization
+- ✅ Logging & progress bar
+- ✅ Summary report to sender
 
-## Installation
+---
 
-1. **Clone the Repository** (if applicable):
-   ```sh
-   git clone https://github.com/lovnishverma/mailjet.git
-   cd mailjet
-   ```
+## 🚀 Features
 
-2. **Install Required Dependencies:**
-   ```sh
-   pip install pandas tqdm mailjet-rest
-   ```
+- 📄 Supports **CSV** and **Excel** input files
+- 📎 Automatically attaches a certificate PDF (based on Cert No.)
+- 🛑 Option to **disable attachments** using a single config flag
+- 📬 Sends a **summary email** after the batch is processed
+- 🔐 Secure configuration via Python `dict`
+- ✅ Skips invalid emails automatically
+- 📊 Progress bar using `tqdm`
+- 📝 Error and delivery logs saved to `email_sending.log`
 
-3. **Update Configuration in the Script:**
-   - Edit the `config` dictionary inside the script to add:
-     - Your Mailjet API Key and Secret
-     - Sender Email (registered with Mailjet)
-     - Path to the Excel file
-     - Folder containing certificates
+---
 
-## Usage
+## 🛠️ Requirements
 
-1. **Prepare the Excel File:**
-   - The file should have the following columns:
-     - `full_name`: Recipient's full name
-     - `email`: Recipient's email address
-     - `cert_no`: Certificate number (used to locate the PDF file)
-   
-2. **Prepare the Certificate Folder:**
-   - Store all PDF certificates inside a folder (e.g., `certificates/`).
-   - Ensure each certificate is named as `{cert_no}.pdf` (matching `cert_no` in the Excel file).
+Install dependencies with:
 
-3. **Run the Script:**
-   ```sh
-   python mailjet.py
-   ```
+```bash
+pip install pandas tqdm mailjet_rest openpyxl
+````
 
-## Email Template
-The script sends emails with the following content:
-- Personalized greeting (`Dear {full_name},`)
-- Instructions on sharing the certificate on LinkedIn
-- Attached PDF certificate
-- Signature from `your company`
+---
 
-## Logs and Summary
-- The script logs each email's status in `email_sending.log`.
-- After execution, a **summary email** is sent to the administrator with total sent/failed emails.
+## 📁 File Structure
 
-## Troubleshooting
-### Error: `FileNotFoundError: Certificate file not found`
-- Ensure the `cert_no` matches the file name in the `certificates` folder.
+```
+mailjet/
+├── mailer.py               # Main script
+├── TEST.xlsx               # Input Excel/CSV file (see format below)
+├── certificates/           # Folder containing certificate PDFs
+└── email_sending.log       # Generated log file after execution
+```
 
-### Error: `Invalid email address`
-- The script uses a regex pattern to validate emails before sending. Ensure the email format is correct.
+---
 
-### Error: `Mailjet authentication failed`
-- Double-check your Mailjet API Key and Secret Key in the script.
+## 📥 Input File Format (Excel or CSV)
 
-## License
-This project is licensed under the MIT License.
+Your file should contain the following **three columns**:
 
+| full\_name | email                                                   | cert\_no |
+| ---------- | ------------------------------------------------------- | -------- |
+| John Doe   | [john.doe@example.com](mailto:john.doe@example.com)     | CERT-001 |
+| Jane Smith | [jane.smith@example.com](mailto:jane.smith@example.com) | CERT-002 |
+
+> The certificate file should be named as `CERT-001.pdf`, `CERT-002.pdf`, etc., and placed in the `certificates/` folder.
+
+---
+
+## ⚙️ Configuration
+
+Update this Python dictionary at the top of `mailer.py`:
+
+```python
+config = {
+    "from_email": "youremail@example.com",
+    "file_type": "excel",  # or 'csv'
+    "file_path": "TEST.xlsx",
+    "attachments_folder": "certificates",
+    "mailjet_api_key": "YOUR_MAILJET_API_KEY",
+    "mailjet_api_secret": "YOUR_MAILJET_SECRET",
+    "disable_attachments": False  # Set True to skip sending certificates
+}
+```
+
+---
+
+## 🧪 Running the Script
+
+```bash
+python mailer.py
+```
+
+You will see a live progress bar and logs in `email_sending.log`.
+
+---
+
+## 📤 Output
+
+* ✅ Individual emails sent to each recipient
+* 📎 Certificate attached (if enabled and found)
+* ❗ Logs error if email is invalid or PDF missing
+* 📨 Summary email sent to sender with:
+
+  * Total emails processed
+  * Emails sent
+  * Emails failed
+
+---
+
+## 🛑 Notes & Limitations
+
+* Mailjet **free tier** allows:
+
+  * ✅ 200 emails/day
+  * ✅ 6,000 emails/month
+* Make sure to **verify your sender email** in your Mailjet account
+* Certificate files must be named exactly as `{cert_no}.pdf`
+
+---
+
+## 🤝 Contributing
+
+Suggestions, bug reports, and pull requests are welcome!
+
+You can contribute via:
+
+* Branch: [`mailjetver1.3`](https://github.com/lovnishverma/mailjet/tree/mailjetver1.3)
+* Issue: [Suggestion #1](https://github.com/lovnishverma/mailjet/issues/1)
+
+---
+
+## 📧 Sample Email Screenshot
+
+> *(Optional: Add screenshot of the sample HTML email here)*
+
+---
+
+## 🙋‍♂️ Maintainer
+
+**Lovnish Verma**
+🔗 [LinkedIn](https://in.linkedin.com/in/lovnishverma)
+📬 [GitHub](https://github.com/lovnishverma)
+
+---
+
+## 📜 License
+
+This project is open-source under the [MIT License](LICENSE).
+
+````
+
+---
+
+### ✅ What To Do Next:
+- Save the above content as your `README.md`
+- Commit it to your `mailjetver1.3` branch:
+```bash
+git add README.md
+git commit -m "Add complete README for mailjetver1.3"
+git push origin mailjetver1.3
+````
