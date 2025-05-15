@@ -41,7 +41,7 @@ pip install pandas tqdm mailjet_rest openpyxl
 
 ```
 mailjet/
-├── mailer.py               # Main script
+├── mailjet.py               # Main script
 ├── TEST.xlsx               # Input Excel/CSV file (see format below)
 ├── certificates/           # Folder containing certificate PDFs
 └── email_sending.log       # Generated log file after execution
@@ -64,7 +64,7 @@ Your file should contain the following **three columns**:
 
 ## ⚙️ Configuration
 
-Update this Python dictionary at the top of `mailer.py`:
+Update this Python dictionary at the top of `mailjet.py`:
 
 ```python
 config = {
@@ -83,7 +83,7 @@ config = {
 ## 🧪 Running the Script
 
 ```bash
-python mailer.py
+python mailjet.py
 ```
 
 You will see a live progress bar and logs in `email_sending.log`.
@@ -127,7 +127,8 @@ You can contribute via:
 
 ## 📧 Sample Email Screenshot
 
-> *(Optional: Add screenshot of the sample HTML email here)*
+> ![WhatsApp Image 2025-05-15 at 15 15 32_b0c621b2](https://github.com/user-attachments/assets/efee16e0-4355-4b57-a989-6200da5285f2)
+
 
 ---
 
