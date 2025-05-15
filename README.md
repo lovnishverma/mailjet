@@ -55,8 +55,8 @@ Your file should contain the following **three columns**:
 
 | full\_name | email                                                   | cert\_no |
 | ---------- | ------------------------------------------------------- | -------- |
-| John Doe   | [john.doe@example.com](mailto:john.doe@example.com)     | CERT-001 |
-| Jane Smith | [jane.smith@example.com](mailto:jane.smith@example.com) | CERT-002 |
+| Lovnish Verma   | [technicalboyprince@gmail.com](mailto:technicalboyprince@gmail.com)     | CERT-001 |
+| Prince Verma | [princelv84@gmail.com](mailto:princelv84@gmail.com) | CERT-002 |
 
 > The certificate file should be named as `CERT-001.pdf`, `CERT-002.pdf`, etc., and placed in the `certificates/` folder.
 
