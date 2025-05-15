@@ -147,12 +147,3 @@ This project is open-source under the [MIT License](LICENSE).
 ````
 
 ---
-
-### ✅ What To Do Next:
-- Save the above content as your `README.md`
-- Commit it to your `mailjetver1.3` branch:
-```bash
-git add README.md
-git commit -m "Add complete README for mailjetver1.3"
-git push origin mailjetver1.3
-````
