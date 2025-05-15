@@ -145,7 +145,7 @@ MIT License
 
 ## 🤝 Acknowledgements
 
-Built with ❤️ by Lovnish Verma using:
+Built with ❤️ by [Lovnish Verma](https://github.com/lovnishverma) using:
 
 * [Mailjet](https://www.mailjet.com/)
 * [Tkinter](https://docs.python.org/3/library/tkinter.html)
@@ -168,6 +168,7 @@ openpyxl
 
 > Note: `openpyxl` is required for reading `.xlsx` files.
 
+![image](https://github.com/user-attachments/assets/74df951f-36ea-4d9e-a66f-b1d069279189)
 
 
-This as an executable with `pyinstaller`.
+This as an executable made using with `pyinstaller`.
