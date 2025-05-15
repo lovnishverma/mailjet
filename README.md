@@ -30,13 +30,21 @@ A user-friendly desktop application built using **Python & Tkinter** for sending
 ```
 
 certificate\_email\_sender/
+
 ├── main.py               # Main application code
+
 ├── config.json           # Auto-generated config (Mailjet settings)
+
 ├── README.md             # Documentation
+
 ├── requirements.txt      # Python dependencies
+
 ├── dist/
+
 │   └── main.exe          # Standalone executable (Windows)
+
 ├── build/
+
 └── main.spec             # PyInstaller build file
 
 ````
