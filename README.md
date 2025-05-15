@@ -31,7 +31,7 @@ A user-friendly desktop application built using **Python & Tkinter** for sending
 
 certificate\_email\_sender/
 
-├── mailjet.py               # mailjet application code
+├── mailjet.py            # main application code
 
 ├── config.json           # Auto-generated config (Mailjet settings)
 
