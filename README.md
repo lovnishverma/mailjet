@@ -11,7 +11,7 @@ A professional desktop application for sending personalized certificate emails i
 
 **For Python Users:**
 ```bash
-git clone https://github.com/yourusername/certificate-email-sender.git
+git clone https://github.com/lovnishverma/certificate-email-sender.git
 cd certificate-email-sender
 pip install -r requirements.txt
 python mailjet.py
