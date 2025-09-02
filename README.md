@@ -5,7 +5,7 @@ A professional desktop application for sending personalized certificate emails i
 ## 🚀 Quick Start
 
 **For Windows Users (No Python Required):**
-1. Download `mailjet.exe` from [Releases](https://github.com/lovnishverma/mailjet/releases)
+1. Download `mailjet.exe` from [Releases](https://github.com/lovnishverma/certificate-email-sender/releases/tag/v1.4)
 2. Double-click to launch the application
 3. Follow the setup wizard in the GUI
 
